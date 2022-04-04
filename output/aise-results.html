@@ -4,9 +4,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/sankey.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
-        <script src="https://code.highcharts.com/modules/export-data.js"></script>
-        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
         <script>
             $(document).ready(function() {
@@ -22,7 +19,11 @@
                     subtitle: {
                         text: 'This chart represents the measure output for Influenza, Td/Tdap, Herpes Zoster, Pneumococcal adult vaccines for 14,474 patients of which 1,228 had at least one of these vaccines.'
                     },
+                    exporting: {
+                        enabled: false
+                    },
                     accessibility: {
+                        enabled: false,
                         point: {
                             valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
                         }
@@ -60,7 +61,7 @@
                             ['Age', '90+', 156],
                         ],
                         type: 'sankey',
-                        name: 'Sankey demo series'
+                        name: 'AIS-E Sankey'
                     }]
                 });
             });
