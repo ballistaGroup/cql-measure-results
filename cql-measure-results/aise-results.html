@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/sankey.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#aise-container').height($(window).height() - 50);
+
+                Highcharts.chart('aise-container', {
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Adult Immunization (AIS-E) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: 'This chart represents the measure output for Influenza, Td/Tdap, Herpes Zoster, Pneumococcal adult vaccines for 14,474 patients of which 1,228 had at least one of these vaccines.'
+                    },
+                    accessibility: {
+                        point: {
+                            valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
+                        }
+                    },
+                    series: [{
+                        keys: ['from', 'to', 'weight'],
+                        data: [
+                            ['Numerator', 'Influenza', 350],        // AISINFL
+                            ['Numerator', 'Td/Tdap', 350],          // AISTD
+                            ['Numerator', 'Zoster', 333],           // AISZOS
+                            ['Numerator', 'Pneumococcal 23', 195],  // AISPNEU
+
+                            ['Payer', 'Medicare', 636],             // MCR=590 + MP=20 + MC=26 =>
+                            ['Payer', 'Medicaid', 317],             // MDE=7 + MD=4 + MLI=49 + MRB=40 + MCD=217 => 317
+                            ['Payer', 'Commercial PPO', 31],
+                            ['Payer', 'Commercial POS', 31],
+                            ['Payer', 'Commercial HMO', 60],
+                            ['Payer', 'Commerical CEP', 59],
+                            ['Payer', 'Exchange MMO', 3],
+                            ['Payer', 'Exchange MOS', 6],
+                            ['Payer', 'Exchange MPO', 4],
+                            ['Payer', 'Exchange MEP', 11],
+                            ['Payer', 'MCS', 74],
+
+                            ['Gender', 'Female', 745],              // $ cut -d ',' -f 12 AIS-E.csv | grep F | wc -l
+                            ['Gender', 'Male', 483],                // $ cut -d ',' -f 12 AIS-E.csv | grep M | wc -l
+
+                            ['Age', '20-29', 10],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^2'| wc -l
+                            ['Age', '30-39', 8],
+                            ['Age', '40-49', 16],
+                            ['Age', '50-59', 327],
+                            ['Age', '60-69', 151],
+                            ['Age', '70-79', 268],
+                            ['Age', '80-89', 292],
+                            ['Age', '90+', 156],
+                        ],
+                        type: 'sankey',
+                        name: 'Sankey demo series'
+                    }]
+                });
+            });
+        </script>
+
+        <style>
+            .highcharts-figure,
+            .highcharts-data-table table {
+                min-width: 800px;
+                margin: 1em auto;
+            }
+
+            .highcharts-data-table table {
+                font-family: Verdana, sans-serif;
+                border-collapse: collapse;
+                border: 1px solid #ebebeb;
+                margin: 10px auto;
+                text-align: center;
+                width: 100%;
+                max-width: 500px;
+                height: 100%;
+            }
+
+            .highcharts-data-table caption {
+                padding: 1em 0;
+                font-size: 1.2em;
+                color: #555;
+            }
+
+            .highcharts-data-table th {
+                font-weight: 600;
+                padding: 0.5em;
+            }
+
+            .highcharts-data-table td,
+            .highcharts-data-table th,
+            .highcharts-data-table caption {
+                padding: 0.5em;
+            }
+
+            .highcharts-data-table thead tr,
+            .highcharts-data-table tr:nth-child(even) {
+                background: #f8f8f8;
+            }
+
+            .highcharts-data-table tr:hover {
+                background: #f1f7ff;
+            }
+        </style>
+    </head>
+    <body>
+        <figure class="highcharts-figure">
+            <div id="aise-container"></div>
+        </figure>
+    </body>
+</html>
