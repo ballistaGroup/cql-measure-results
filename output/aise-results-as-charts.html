@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>AIS-E HEDIS measure chart output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+        <script>
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        radialGradient: {
+                            cx: 0.5,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, color],
+                            [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
+
+            $(document).ready(function() {
+                Highcharts.chart('aise-container-numerator', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Numerators</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'Influenza', y: 350 },
+                            { name: 'Td/Tdap', y: 350 },
+                            { name: 'Herpes Zoster', y: 333 },
+                            { name: 'Pneumococcal 23', y: 195 }
+                        ],
+                        name: 'Numerators'
+                    }]
+                });
+
+                Highcharts.chart('aise-container-gender', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Gender</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'Female', y: 745 },
+                            { name: 'Male', y: 483 }
+                        ],
+                        name: 'Genders'
+                    }]
+                });
+
+                Highcharts.chart('aise-container-age', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: 0,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Age</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            dataLabels: {
+                                enabled: true,
+                                distance: -50,
+                                style: {
+                                    fontWeight: 'bold',
+                                    color: 'white'
+                                }
+                            },
+                            startAngle: -90,
+                            endAngle: 90,
+                            center: ['50%', '75%'],
+                            size: '150%',
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Age Buckets',
+                        innerSize: '50%',
+                        data: [
+                            {name: '20-29', y: 10, dataLabels: { enabled: false }},
+                            {name: '30-39', y: 8,  dataLabels: { enabled: false }},
+                            {name: '40-49', y: 16, dataLabels: { enabled: false }},
+                            {name: '50-59', y: 327},
+                            {name: '60-69', y: 151},
+                            {name: '70-79', y: 268},
+                            {name: '80-89', y: 292},
+                            {name: '90+',   y: 156}
+                        ]
+                    }]
+                });
+
+                Highcharts.chart('aise-container-payer', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Payer Summary</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y} patients)<br/>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'All Payers',
+                        data: [
+                            { name: 'Medicare', y: 636 },
+                            { name: 'Medicaid', y: 317 },
+                            { name: 'Commercial', y: 31+31+60+59, drilldown: "Commercial Payers"},
+                            { name: 'Exchange', y: 3+6+4+11,      drilldown: "Exchange Payers"},
+                            { name: 'Medical Care Services (MCS)', y: 74 },
+                        ],
+                        
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: "Commercial Payers",
+                            id: "Commercial Payers",
+                            data: [[
+                                "PPO", 31
+                            ], [
+                                "POS", 31
+                            ], [
+                                "HMO", 60
+                            ], [
+                                "CEP", 59
+                            ]]
+                        }, {
+                            name: "Exchange Payers",
+                            id: "Exchange Payers",
+                            data: [[
+                                "MMO", 3
+                            ], [
+                                "MOS", 6
+                            ], [
+                                "MPO", 4
+                            ], [
+                                "MEP", 11
+                            ]]
+                        }]
+                    }
+                });
+            });
+        </script>
+
+        <style>
+            .page-title {
+                text-align: center;
+                font-size: 1.5rem;
+            }
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+            .highcharts-figure div {
+                border-bottom: 1px solid #d3d3d3;
+            }
+            .aise-container-payer-summary,
+            .aise-container-payer-commercial,
+            .aise-container-payer-exchange {
+                float: left;
+                width: 30% !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page-title">
+            These charts represent the measure output for Influenza, Td/Tdap, Herpes Zoster, Pneumococcal adult vaccines for 14,474 patients of which 1,228 had at least one of these vaccines.
+        </div>
+        <figure class="highcharts-figure">
+            <div id="aise-container-numerator"></div>
+            <div id="aise-container-payer"></div>
+            <div id="aise-container-gender"></div>
+            <div id="aise-container-age"></div>
+        </figure>
+    </body>
+</html>
