@@ -34,16 +34,13 @@
                         data: [
                             //['All Patients', 'Patients', 14474],
 
-                            //['Patients', 'Numerator', 1228],
-                            //['Patients', 'Payer', 1228],
-                            //['Patients', 'Gender', 1228],
-                            //['Patients', 'Age', 1228],
-
+                            ['Patients', 'Numerator', 1228],
                             ['Numerator', 'Influenza', 350],        // AISINFL
                             ['Numerator', 'Td/Tdap', 350],          // AISTD
                             ['Numerator', 'Herpes Zoster', 333],    // AISZOS
                             ['Numerator', 'Pneumococcal 23', 195],  // AISPNEU
 
+                            ['Patients', 'Payer', 1228],
                             ['Payer', 'Medicare', 636],             // MCR=590 + MP=20 + MC=26 => 636
                             ['Payer', 'Medicaid', 317],             // MDE=7 + MD=4 + MLI=49 + MRB=40 + MCD=217 => 317
                             ['Payer', 'Commercial PPO', 31],
@@ -56,9 +53,11 @@
                             ['Payer', 'Exchange MEP', 11],
                             ['Payer', 'MCS', 74],
 
+                            ['Patients', 'Gender', 1228],
                             ['Gender', 'Female', 745],              // $ cut -d ',' -f 12 AIS-E.csv | grep F | wc -l
                             ['Gender', 'Male', 483],                // $ cut -d ',' -f 12 AIS-E.csv | grep M | wc -l
 
+                            ['Patients', 'Age', 1228],
                             ['Age', '20-29', 10],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^2'| wc -l
                             ['Age', '30-39', 8],
                             ['Age', '40-49', 16],
