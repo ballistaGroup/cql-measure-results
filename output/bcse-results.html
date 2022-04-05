@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>BCS-E HEDIS measure output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/sankey.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#aise-container').height($(window).height() - 50);
+
+                Highcharts.chart('bsce-container', {
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Breast Cancer Screening (BCS-E) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: 'This chart represents the measure output for Breast Cancer Screening for 26,284 patients of which 163 had mammography completed.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false,
+                        point: {
+                            valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
+                        }
+                    },
+                    series: [{
+                        keys: ['from', 'to', 'weight'],
+                        data: [
+                            //['All Patients', 'Patients', 26284],
+                            //['Patients', 'Initial Population', 163],
+
+                            ['Initial Population', 'Females 52-64 yo', 163],
+
+                            ['Females 52-64 yo', 'Numerator', 63],
+                            ['Numerator', 'Mammography Completed', 63],
+
+                            ['Females 52-64 yo', 'Exclusions', 133],
+                            ['Exclusions', 'Hospice, Mastectomy, Advanced Illness or Palliative Care', 133]
+
+                            //['Females 52-64 yo', 'Payer', 163],
+                            ['Payer', 'Medicare', 72],              // $ cut -d ',' -f 3 BCS-E.csv | egrep '^MCR$'| wc -l
+                            ['Payer', 'Medicaid', 64],              // MLI=10 + MRB=18 + MCD=36 => 64
+                            ['Payer', 'Commercial PPO', 2],         // $ cut -d ',' -f 3 BCS-E.csv | egrep '^PPO$'| wc -l
+                            ['Payer', 'Commercial POS', 5],         // $ cut -d ',' -f 3 BCS-E.csv | egrep '^POS$'| wc -l
+                            ['Payer', 'Commercial HMO', 5],         // $ cut -d ',' -f 3 BCS-E.csv | egrep '^HMO$'| wc -l
+                            ['Payer', 'Commerical CEP', 5],         // $ cut -d ',' -f 3 BCS-E.csv | egrep '^CEP$'| wc -l
+                            ['Payer', 'MCS', 10],                   // $ cut -d ',' -f 3 BCS-E.csv | egrep '^MCS$'| wc -l
+
+                            //['Females 52-64 yo', 'Age', 163],
+                            ['Age', '50-59', 18],                   // $ cut -d ',' -f 11 BCS-E.csv | egrep '^5'| wc -l
+                            ['Age', '60-69', 85],                   // $ cut -d ',' -f 11 BCS-E.csv | egrep '^6'| wc -l
+                            ['Age', '70-79', 60]                    // $ cut -d ',' -f 11 BCS-E.csv | egrep '^7'| wc -l
+                        ],
+                        type: 'sankey',
+                        name: 'BCS-E Sankey'
+                    }]
+                });
+            });
+        </script>
+
+        <style>
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+        </style>
+    </head>
+    <body>
+        <figure class="highcharts-figure">
+            <div id="bsce-container"></div>
+        </figure>
+    </body>
+</html>

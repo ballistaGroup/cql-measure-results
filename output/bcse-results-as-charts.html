@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>BCS-E HEDIS measure chart output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/funnel.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+        <script>
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        radialGradient: {
+                            cx: 0.5,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, color],
+                            [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
+
+            $(document).ready(function() {
+                Highcharts.chart('bcse-container-initial-population', {
+                    chart: {
+                        type: 'funnel'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Breast Cancer Screen (BCS-E) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: '26,284 patients were input and 163 female patients were between 52-74 and of those 63 had mammograms.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b> ({point.y:,.0f})',
+                                softConnector: true
+                            },
+                            width: '50%',
+                            neckWidth: '1%',
+                            neckHeight: '50%'
+                        }
+                    },
+                    series: [{
+                        name: 'Unique patients',
+                        data: [
+                            ['All Patients', 26284],
+                            ['Initial Population', 163]
+                        ]
+                    }]
+                });
+
+                Highcharts.chart('bcse-container-numerator', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Numerators</b>: Breast Cancer Screening (BCS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'Mammogram', y: 63 },
+                            { name: 'None',      y: 100 }
+                        ],
+                        name: 'Numerators'
+                    }]
+                });
+
+                Highcharts.chart('bcse-container-age', {
+                    chart: {
+                        type: 'column',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: 0,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Ages</b>: Breast Cancer Screening (BCS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            var total = 0;
+                            for (var i=0; i<this.series.data.length; i++) {
+                                total += this.series.data[i].y;
+                            }
+                            var percent = (100 * this.y) / total;
+                            return '<b>' + this.x + '</b> years old<br>' + this.y + ' patients<br>' + percent.toFixed(1) + '% of population';
+                        }
+                    },
+                    xAxis: {
+                        categories: [
+                            '50-59',
+                            '60-69',
+                            '70-79'
+                        ]
+                    },
+                    plotOptions: {
+                        column: {
+                            dataLabels: {
+                                enabled: true,
+                                // see http://jsfiddle.net/egret230/7pkmD/
+                                formatter: function() {
+                                    var total = 0;
+                                    for (var i=0; i<this.series.data.length; i++) {
+                                        total += this.series.data[i].y;
+                                    }
+                                    var percent = (100 * this.y) / total;
+                                    return this.y + ' patients (' + percent.toFixed(1) + '%)';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Age Buckets',
+                        innerSize: '50%',
+                        data: [
+                            {name: '50-59', y: 18, drilldown: 'Patient Age Details'},
+                            {name: '60-69', y: 85, drilldown: 'Patient Age Details'},
+                            {name: '70-79', y: 60, drilldown: 'Patient Age Details'}
+                        ]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Patient Age Details',
+                            id: 'Patient Age Details',
+                            // $ cut -d ',' -f 11 BCS-E.csv | grep 55
+                            data: [
+                                {name: '50', y: 0},
+                                {name: '51', y: 0},
+                                {name: '52', y: 0},
+                                {name: '53', y: 2},
+                                {name: '54', y: 4},
+                                {name: '55', y: 3},
+                                {name: '56', y: 2},
+                                {name: '57', y: 2},
+                                {name: '58', y: 2},
+                                {name: '59', y: 3},
+                                {name: '60', y: 3},
+                                {name: '61', y: 1},
+                                {name: '62', y: 2},
+                                {name: '63', y: 4},
+                                {name: '64', y: 3},
+                                {name: '65', y: 17},
+                                {name: '66', y: 15},
+                                {name: '67', y: 19},
+                                {name: '68', y: 10},
+                                {name: '69', y: 11},
+                                {name: '70', y: 14},
+                                {name: '71', y: 7},
+                                {name: '72', y: 15},
+                                {name: '73', y: 15},
+                                {name: '74', y: 9},
+                            ]
+                        }]
+                    }
+                });
+
+                Highcharts.chart('bcse-container-payer', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Payers</b>: Breast Cancer Screening (BCS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y} patients)<br/>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'All Payers',
+                        data: [
+                            { name: 'Medicare',   y: 72 },
+                            { name: 'Medicaid',   y: 10+18+36, drilldown: 'Medicaid Payers' },
+                            { name: 'Commercial', y: 2+5+5+5,  drilldown: 'Commercial Payers' },
+                            { name: 'Medical Care Services (MCS)', y: 10 },
+                        ],
+                        
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Medicaid Payers',
+                            id: 'Medicaid Payers',
+                            data: [[
+                                'MLI', 10
+                            ], [
+                                'MRB', 18
+                            ], [
+                                'MCD', 36
+                            ]]
+                        }, {
+                            name: 'Commercial Payers',
+                            id: 'Commercial Payers',
+                            data: [[
+                                'PPO', 2
+                            ], [
+                                'POS', 5
+                            ], [
+                                'HMO', 5
+                            ], [
+                                'CEP', 5
+                            ]]
+                        }]
+                    }
+                });
+            });
+        </script>
+
+        <style>
+            .page-title {
+                text-align: center;
+                font-size: 1.5rem;
+            }
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+            .highcharts-figure div {
+                border-bottom: 1px solid #d3d3d3;
+            }
+            .bcse-container-payer-summary,
+            .bcse-container-payer-commercial,
+            .bcse-container-payer-exchange {
+                float: left;
+                width: 30% !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page-title">
+            These charts represent the measure output for Influenza, Td/Tdap, Herpes Zoster, Pneumococcal adult vaccines for 14,474 patients of which 289 had at least one of these vaccines.
+        </div>
+        <figure class="highcharts-figure">
+            <div id="bcse-container-initial-population"></div>
+            <div id="bcse-container-numerator"></div>
+            <div id="bcse-container-payer"></div>
+            <div id="bcse-container-age"></div>
+        </figure>
+    </body>
+</html>
