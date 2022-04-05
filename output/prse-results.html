@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PRS-E HEDIS measure output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/sankey.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#prse-container').height($(window).height() - 50);
+
+                Highcharts.chart('prse-container', {
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Prenatal Immunization Status (PRS-E) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: 'This chart represents the measure output for Influenza, Td/Tdap, and Combination of both for 12,273 patients of which 7,551 had at least one of these vaccines.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false,
+                        point: {
+                            valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
+                        }
+                    },
+                    series: [{
+                        keys: ['from', 'to', 'weight'],
+                        data: [
+                            //['All Patients', 'Patients', 12273],
+
+                            ['Patients', 'Numerator', 7551],
+
+                            ['Numerator', 'Influenza for 1st delivery', 0],     // PRSINFLA
+                            ['Numerator', 'Tdap for 1st delivery', 351],        // PRSTDA
+                            ['Numerator', 'Combination for 1st delivery', 0],   // PRSCMBA
+                            ['Numerator', 'Influenza for 2nd delivery', 0],     // PRSINFLA
+                            ['Numerator', 'Tdap for 2nd delivery', 450],        // PRSTDA
+                            ['Numerator', 'Combination for 2nd delivery', 0],   // PRSCMBA
+                            ['Numerator', 'None', 6750],                        // PRS          $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRS$' | wc -l
+
+                            ['Patients', 'Payer', 7551],
+                            ['Payer', 'Medicare', 636],             // MCR=590 + MP=20 + MC=26 => 636
+                            ['Payer', 'Medicaid', 317],             // MDE=7 + MD=4 + MLI=49 + MRB=40 + MCD=217 => 317
+                            ['Payer', 'Commercial PPO', 558],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^PPO$' | wc -l
+                            ['Payer', 'Commercial POS', 594],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^POS$' | wc -l
+                            ['Payer', 'Commercial HMO', 588],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^HMO$' | wc -l
+                            ['Payer', 'Commerical CEP', 657],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^CEP$' | wc -l
+                            ['Payer', 'Exchange MMO', 30],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MMO$' | wc -l
+                            ['Payer', 'Exchange MOS', 27],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MOS$' | wc -l
+                            ['Payer', 'Exchange MPO', 36],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MPO$' | wc -l
+                            ['Payer', 'Exchange MEP', 15],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MEP$' | wc -l
+                            ['Payer', 'MCS', 417],                  // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MCS$' | wc -l
+
+                            ['Patients', 'Gender', 7551],
+                            ['Gender', 'Female', 6363],             // $ cut -d ',' -f 12 PRS-E.csv | grep F | wc -l
+                            ['Gender', 'Male', 1188],               // $ cut -d ',' -f 12 PRS-E.csv | grep M | wc -l
+
+                            ['Patients', 'Age', 7551],
+                            ['Age', '<20',   828],                  // $ cut -d ',' -f 11 PRS-E.csv | egrep '^1' | wc -l
+                            ['Age', '20-29', 1605],                 // $ cut -d ',' -f 11 PRS-E.csv | egrep '^2' | wc -l
+                            ['Age', '30-39', 2526],                 // $ cut -d ',' -f 11 PRS-E.csv | egrep '^3' | wc -l
+                            ['Age', '40-49', 1203],                 // $ cut -d ',' -f 11 PRS-E.csv | egrep '^4' | wc -l
+                            ['Age', '50-59', 1227],                 // $ cut -d ',' -f 11 PRS-E.csv | egrep '^5' | wc -l
+                            ['Age', '60-69', 162]                   // $ cut -d ',' -f 11 PRS-E.csv | egrep '^6' | wc -l
+                        ],
+                        type: 'sankey',
+                        name: 'PRS-E Sankey'
+                    }]
+                });
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+            }
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+        </style>
+    </head>
+    <body>
+        <figure class="highcharts-figure">
+            <div id="prse-container"></div>
+        </figure>
+    </body>
+</html>
