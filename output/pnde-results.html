@@ -58,7 +58,7 @@
                             ['Payer', 'MCS', 28],                   // $ cut -d ',' -f 3 PND-E.csv | egrep '^MCS$'| wc -l
 
                             ['Initial Population: Deliveries', 'Age', 750],
-                            ['Age', '10-19', 328],                  // $ cut -d ',' -f 11 PND-E.csv | egrep '^1'| wc -l
+                            ['Age', '<20>',  328],                  // $ cut -d ',' -f 11 PND-E.csv | egrep '^1'| wc -l
                             ['Age', '20-29', 48],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^2'| wc -l
                             ['Age', '30-39', 106],                  // $ cut -d ',' -f 11 AIS-E.csv | egrep '^3'| wc -l
                             ['Age', '40-49', 58],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^4'| wc -l
@@ -66,7 +66,7 @@
                             ['Age', '60-69', 46],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^6'| wc -l
                             ['Age', '70-79', 50],                   // $ cut -d ',' -f 11 PND-E.csv | egrep '^7'| wc -l
                             ['Age', '80-89', 34],                   // $ cut -d ',' -f 11 PND-E.csv | egrep '^8'| wc -l
-                            ['Age', '90+', 36],                     // $ cut -d ',' -f 11 PND-E.csv | egrep '^9'| wc -l
+                            ['Age', '90+',   36],                   // $ cut -d ',' -f 11 PND-E.csv | egrep '^9'| wc -l
                         ],
                         type: 'sankey',
                         name: 'PND-E Sankey'
