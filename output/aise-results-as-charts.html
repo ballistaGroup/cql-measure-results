@@ -4,6 +4,7 @@
         <title>AIS-E HEDIS measure chart output</title>
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/funnel.js"></script>
         <script src="https://code.highcharts.com/modules/drilldown.js"></script>
 
         <script>
@@ -24,6 +25,46 @@
             });
 
             $(document).ready(function() {
+                Highcharts.chart('aise-container-initial-population', {
+                    chart: {
+                        type: 'funnel'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Adult Immunization (AIS-E) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: '14,474 patients were input and 289 patients had at least one of these vaccines.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b> ({point.y:,.0f})',
+                                softConnector: true
+                            },
+                            width: '50%',
+                            neckWidth: '1%',
+                            neckHeight: '50%'
+                        }
+                    },
+                    series: [{
+                        name: 'Unique patients',
+                        data: [
+                            ['All Patients', 14474],
+                            ['Initial Population', 289]
+                        ]
+                    }]
+                });
+
                 Highcharts.chart('aise-container-numerator', {
                     chart: {
                         type: 'pie',
@@ -66,7 +107,42 @@
                             { name: 'Pneumococcal 23', y: 195 }
                         ],
                         name: 'Numerators'
-                    }]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Influenza patients',
+                            id: 'Influenza patients',
+                            data: [[
+                                'Patient who only had a SINGLE Influenza Vaccine', 228
+                            ], [
+                                'Patients who had MULITPLE Influenza Vaccines', 61
+                            ]]
+                        }, {
+                            name: 'Td/Tdap patients',
+                            id: 'Td/Tdap patients',
+                            data: [[
+                                'Patient who only had a SINGLE Td/Tdap Vaccine', 228
+                            ], [
+                                'Patients who had MULITPLE Td/Tdap Vaccines', 61
+                            ]]
+                        }, {
+                            name: 'Herpes Zoster patients',
+                            id: 'Herpes Zoster patients',
+                            data: [[
+                                'Patient who only had a SINGLE Herpes Zoster Vaccine', 229
+                            ], [
+                                'Patients who had MULITPLE Herpes Zoster Vaccines', 52
+                            ]]
+                        }, {
+                            name: 'Pneumococcal 23 patients',
+                            id: 'Pneumococcal 23 patients',
+                            data: [[
+                                'Patient who only had a SINGLE Pneumococcal 23 Vaccine', 141
+                            ], [
+                                'Patients who had MULITPLE Pneumococcal 23 Vaccines', 27
+                            ]]
+                        }]
+                    }
                 });
 
                 Highcharts.chart('aise-container-gender', {
@@ -80,7 +156,7 @@
                         enabled: false
                     },
                     title: {
-                        text: '<b>Gender</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                        text: '<b>Genders</b>: Adult Immunization (AIS-E) HEDIS for 2022'
                     },
                     exporting: {
                         enabled: false
@@ -122,7 +198,7 @@
                         enabled: false
                     },
                     title: {
-                        text: '<b>Age</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                        text: '<b>Ages</b>: Adult Immunization (AIS-E) HEDIS for 2022'
                     },
                     exporting: {
                         enabled: false
@@ -133,31 +209,42 @@
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
                     },
+                    xAxis: {
+                        categories: [
+                            '20-29',
+                            '30-39',
+                            '40-49',
+                            '50-59',
+                            '60-69',
+                            '70-79',
+                            '80-89',
+                            '90+',
+                        ]
+                    },
                     plotOptions: {
-                        pie: {
+                        column: {
                             dataLabels: {
                                 enabled: true,
-                                distance: -50,
-                                style: {
-                                    fontWeight: 'bold',
-                                    color: 'white'
+                                // see http://jsfiddle.net/egret230/7pkmD/
+                                formatter: function() {
+                                    var total = 0;
+                                    for (var i=0; i<this.series.data.length; i++) {
+                                        total += this.series.data[i].y;
+                                    }
+                                    var percent = (100 * this.y) / total;
+                                    return this.y + ' patients (' + percent.toFixed(1) + '%)';
                                 }
-                            },
-                            startAngle: -90,
-                            endAngle: 90,
-                            center: ['50%', '75%'],
-                            size: '150%',
-                            showInLegend: true
+                            }
                         }
                     },
                     series: [{
-                        type: 'pie',
+                        type: 'column',
                         name: 'Age Buckets',
                         innerSize: '50%',
                         data: [
-                            {name: '20-29', y: 10, dataLabels: { enabled: false }},
-                            {name: '30-39', y: 8,  dataLabels: { enabled: false }},
-                            {name: '40-49', y: 16, dataLabels: { enabled: false }},
+                            {name: '20-29', y: 10},
+                            {name: '30-39', y: 8},
+                            {name: '40-49', y: 16},
                             {name: '50-59', y: 327},
                             {name: '60-69', y: 151},
                             {name: '70-79', y: 268},
@@ -178,7 +265,7 @@
                         enabled: false
                     },
                     title: {
-                        text: '<b>Payer Summary</b>: Adult Immunization (AIS-E) HEDIS for 2022'
+                        text: '<b>Payers</b>: Adult Immunization (AIS-E) HEDIS for 2022'
                     },
                     exporting: {
                         enabled: false
@@ -205,38 +292,62 @@
                     series: [{
                         name: 'All Payers',
                         data: [
-                            { name: 'Medicare', y: 636 },
-                            { name: 'Medicaid', y: 317 },
-                            { name: 'Commercial', y: 31+31+60+59, drilldown: "Commercial Payers"},
-                            { name: 'Exchange', y: 3+6+4+11,      drilldown: "Exchange Payers"},
+                            { name: 'Medicare',   y: 590+20+26,     drilldown: 'Medicare Payers' },
+                            { name: 'Medicaid',   y: 7+4+49+40+217, drilldown: 'Medicaid Payers' },
+                            { name: 'Commercial', y: 31+31+60+59,   drilldown: 'Commercial Payers' },
+                            { name: 'Exchange',   y: 3+6+4+11,      drilldown: 'Exchange Payers' },
                             { name: 'Medical Care Services (MCS)', y: 74 },
                         ],
                         
                     }],
                     drilldown: {
                         series: [{
-                            name: "Commercial Payers",
-                            id: "Commercial Payers",
+                            name: 'Medicare Payers',
+                            id: 'Medicare Payers',
                             data: [[
-                                "PPO", 31
+                                'MCR', 590
                             ], [
-                                "POS", 31
+                                'MP', 20
                             ], [
-                                "HMO", 60
-                            ], [
-                                "CEP", 59
+                                'MC', 26
                             ]]
                         }, {
-                            name: "Exchange Payers",
-                            id: "Exchange Payers",
+                            name: 'Medicaid Payers',
+                            id: 'Medicaid Payers',
                             data: [[
-                                "MMO", 3
+                                'MDE', 7
                             ], [
-                                "MOS", 6
+                                'MD', 4
                             ], [
-                                "MPO", 4
+                                'MLI', 49
                             ], [
-                                "MEP", 11
+                                'MRB', 40
+                            ], [
+                                'MCD', 217
+                            ]]
+                        }, {
+                            name: 'Commercial Payers',
+                            id: 'Commercial Payers',
+                            data: [[
+                                'PPO', 31
+                            ], [
+                                'POS', 31
+                            ], [
+                                'HMO', 60
+                            ], [
+                                'CEP', 59
+                            ]]
+                        }, {
+                            name: 'Exchange Payers',
+                            id: 'Exchange Payers',
+                            data: [[
+                                'MMO', 3
+                            ], [
+                                'MOS', 6
+                            ], [
+                                'MPO', 4
+                            ], [
+                                'MEP', 11
                             ]]
                         }]
                     }
@@ -265,9 +376,10 @@
     </head>
     <body>
         <div class="page-title">
-            These charts represent the measure output for Influenza, Td/Tdap, Herpes Zoster, Pneumococcal adult vaccines for 14,474 patients of which 1,228 had at least one of these vaccines.
+            These charts represent the measure output for Influenza, Td/Tdap, Herpes Zoster, Pneumococcal adult vaccines for 14,474 patients of which 289 had at least one of these vaccines.
         </div>
         <figure class="highcharts-figure">
+            <div id="aise-container-initial-population"></div>
             <div id="aise-container-numerator"></div>
             <div id="aise-container-payer"></div>
             <div id="aise-container-gender"></div>
