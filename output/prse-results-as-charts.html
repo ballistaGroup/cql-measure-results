@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PRS-E HEDIS measure chart output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/funnel.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+        <script>
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        radialGradient: {
+                            cx: 0.5,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, color],
+                            [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
+
+            $(document).ready(function() {
+                Highcharts.chart('prse-container-initial-population', {
+                    chart: {
+                        type: 'funnel'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Prenatal Immunization Status (PRS-E) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: '12,273 patients were input and 7,551 patients had at least one of these vaccines.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b> ({point.y:,.0f})',
+                                softConnector: true
+                            },
+                            width: '50%',
+                            neckWidth: '31%',    // ((7551/12273)*100)/2 = 31%
+                            neckHeight: '50%'
+                        }
+                    },
+                    series: [{
+                        name: 'Unique patients',
+                        data: [
+                            ['All Patients', 12273],
+                            ['Initial Population', 7551]
+                        ]
+                    }]
+                });
+
+                Highcharts.chart('prse-container-numerator', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Numerators</b>: Prenatal Immunization Status (PRS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'Influenza 1st delivery',               y: 0 },
+                            { name: 'Tdap 1st delivery',                    y: 351 },
+                            { name: 'Both Influenca and Tdap 1st delivery', y: 0 },
+                            { name: 'Influenza 2nd delivery',               y: 0 },
+                            { name: 'Tdap 2nd delivery',                    y: 450 },
+                            { name: 'Both Influenca and Tdap 2nd delivery', y: 0 },
+                            { name: 'None',                                 y: 7650}
+                        ],
+                        name: 'Numerators'
+                    }]
+                });
+
+                Highcharts.chart('prse-container-gender', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Genders</b>: Prenatal Immunization Status (PRS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'Female', y: 6363 },
+                            { name: 'Male',   y: 1188 }
+                        ],
+                        name: 'Genders'
+                    }]
+                });
+
+                Highcharts.chart('prse-container-age', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: 0,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Ages</b>: Prenatal Immunization Status (PRS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            var total = 0;
+                            for (var i=0; i<this.series.data.length; i++) {
+                                total += this.series.data[i].y;
+                            }
+                            var percent = (100 * this.y) / total;
+                            return '<b>' + this.x + '</b> years old<br>' + this.y + ' patients<br>' + percent.toFixed(1) + '% of population';
+                        }
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    plotOptions: {
+                        column: {
+                            dataLabels: {
+                                enabled: true,
+                                // see http://jsfiddle.net/egret230/7pkmD/
+                                formatter: function() {
+                                    var total = 0;
+                                    for (var i=0; i<this.series.data.length; i++) {
+                                        total += this.series.data[i].y;
+                                    }
+                                    var percent = (100 * this.y) / total;
+                                    return this.y + ' patients (' + percent.toFixed(1) + '%)';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'column',
+                        name: 'Age Buckets',
+                        innerSize: '50%',
+                        data: [
+                            {name: '<20',   y: 828},
+                            {name: '20-29', y: 1605},
+                            {name: '30-39', y: 2526},
+                            {name: '40-49', y: 1203},
+                            {name: '50-59', y: 1227},
+                            {name: '60-69', y: 162}
+                        ]
+                    }]
+                });
+
+                Highcharts.chart('prse-container-payer', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Payers</b>: Prenatal Immunization Status (PRS-E) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y} patients)<br/>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'All Payers',
+                        data: [
+                            { name: 'Medicare',   y: 2886+30+42,          drilldown: 'Medicare Payers' },
+                            { name: 'Medicaid',   y: 648+12+474+147+390, drilldown: 'Medicaid Payers' },
+                            { name: 'Commercial', y: 558+594+588+657,    drilldown: 'Commercial Payers' },
+                            { name: 'Exchange',   y: 30+27+36+15,        drilldown: 'Exchange Payers' },
+                            { name: 'Medical Care Services (MCS)', y: 417 },
+                        ],
+                        
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Medicare Payers',
+                            id: 'Medicare Payers',
+                            data: [[
+                                'MCR', 2886
+                            ], [
+                                'MP', 30
+                            ], [
+                                'MC', 42
+                            ]]
+                        }, {
+                            name: 'Medicaid Payers',
+                            id: 'Medicaid Payers',
+                            data: [[
+                                'MDE', 648
+                            ], [
+                                'MD', 12
+                            ], [
+                                'MLI', 474
+                            ], [
+                                'MRB', 147
+                            ], [
+                                'MCD', 390
+                            ]]
+                        }, {
+                            name: 'Commercial Payers',
+                            id: 'Commercial Payers',
+                            data: [[
+                                'PPO', 558
+                            ], [
+                                'POS', 594
+                            ], [
+                                'HMO', 588
+                            ], [
+                                'CEP', 657
+                            ]]
+                        }, {
+                            name: 'Exchange Payers',
+                            id: 'Exchange Payers',
+                            data: [[
+                                'MMO', 30
+                            ], [
+                                'MOS', 27
+                            ], [
+                                'MPO', 36
+                            ], [
+                                'MEP', 15
+                            ]]
+                        }]
+                    }
+                });
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+            }
+            .page-title {
+                text-align: center;
+                font-weight: bold;
+            }
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+            .highcharts-figure div {
+                border-bottom: 1px solid #d3d3d3;
+            }
+            .prse-container-payer-summary,
+            .prse-container-payer-commercial,
+            .prse-container-payer-exchange {
+                float: left;
+                width: 30% !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page-title">
+            These charts represent the measure output for Influenza, Tdap, or Combination of both vaccines for 12,273 patients of which 7,551 had at least one of these vaccines.
+        </div>
+        <figure class="highcharts-figure">
+            <div id="prse-container-initial-population"></div>
+            <div id="prse-container-numerator"></div>
+            <div id="prse-container-payer"></div>
+            <div id="prse-container-gender"></div>
+            <div id="prse-container-age"></div>
+        </figure>
+    </body>
+</html>
