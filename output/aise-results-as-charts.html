@@ -207,7 +207,14 @@
                         enabled: false
                     },
                     tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                        formatter: function() {
+                            var total = 0;
+                            for (var i=0; i<this.series.data.length; i++) {
+                                total += this.series.data[i].y;
+                            }
+                            var percent = (100 * this.y) / total;
+                            return '<b>' + this.x + '</b> years old<br>' + this.y + ' patients<br>' + percent.toFixed(1) + '% of population';
+                        }
                     },
                     xAxis: {
                         categories: [
