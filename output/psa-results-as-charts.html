@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PSA HEDIS measure chart output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/funnel.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+        <script>
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        radialGradient: {
+                            cx: 0.5,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, color],
+                            [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
+
+            $(document).ready(function() {
+                Highcharts.chart('psa-container-initial-population', {
+                    chart: {
+                        type: 'funnel'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Non-Recommended PSA-Based Screening in Older Men (PSA) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: '71,308 patients were input and 7,890 patients had the PSA completed.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b> ({point.y:,.0f})',
+                                softConnector: true
+                            },
+                            width: '50%',
+                            neckWidth: '6%',    // ((7890/71308)*100)/2 = 6%
+                            neckHeight: '50%'
+                        }
+                    },
+                    series: [{
+                        name: 'Unique patients',
+                        data: [
+                            ['All Patients', 71308],
+                            ['Initial Population', 7890]
+                        ]
+                    }]
+                });
+
+                Highcharts.chart('psa-container-numerator', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Numerator</b>: Non-Recommended PSA-Based Screening in Older Men (PSA) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'Inappropriate PSA test performed', y: 656 },
+                            { name: 'None',                             y: 7234}
+                        ],
+                        name: 'Numerator'
+                    }]
+                });
+
+                Highcharts.chart('psa-container-exclusions', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Exclusions</b>: Non-Recommended PSA-Based Screening in Older Men (PSA) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} patients)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: [
+                            { name: 'In Hospice, Has Prostate Cancer, Dysplasia, Abnormal PSA or on 5-ARI Medication', y: 3058 },
+                            { name: 'None',                                                                            y: 4832 }
+                        ],
+                        name: 'Exclusions'
+                    }]
+                });
+
+                Highcharts.chart('psa-container-age', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: 0,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Ages</b>: Non-Recommended PSA-Based Screening in Older Men (PSA) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            var total = 0;
+                            for (var i=0; i<this.series.data.length; i++) {
+                                total += this.series.data[i].y;
+                            }
+                            var percent = (100 * this.y) / total;
+                            return '<b>' + this.x + '</b> years old<br>' + this.y + ' patients<br>' + percent.toFixed(1) + '% of population';
+                        }
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    plotOptions: {
+                        column: {
+                            dataLabels: {
+                                enabled: true,
+                                // see http://jsfiddle.net/egret230/7pkmD/
+                                formatter: function() {
+                                    var total = 0;
+                                    for (var i=0; i<this.series.data.length; i++) {
+                                        total += this.series.data[i].y;
+                                    }
+                                    var percent = (100 * this.y) / total;
+                                    return this.y + ' patients (' + percent.toFixed(1) + '%)';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'column',
+                        name: 'Age Buckets',
+                        innerSize: '50%',
+                        data: [
+                            {name: '70-79', y: 6605},
+                            {name: '80-89', y: 1285}
+                        ]
+                    }]
+                });
+
+                Highcharts.chart('psa-container-payer', {
+                    chart: {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: '<b>Payers</b>: Non-Recommended PSA-Based Screening in Older Men (PSA) HEDIS for 2022'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y} patients)<br/>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                                connectorColor: 'silver'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'All Payers',
+                        data: [
+                            { name: 'Medicare',   y: 3532+38+31,         drilldown: 'Medicare Payers' },
+                            { name: 'Medicaid',   y: 38+32+390+424+1162, drilldown: 'Medicaid Payers' },
+                            { name: 'Commercial', y: 393+417+426+391,    drilldown: 'Commercial Payers' },
+                            { name: 'Exchange',   y: 64+65+68+55,        drilldown: 'Exchange Payers' },
+                            { name: 'Medical Care Services (MCS)', y: 364 },
+                        ],
+                        
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Medicare Payers',
+                            id: 'Medicare Payers',
+                            data: [[
+                                'MCR', 3532
+                            ], [
+                                'MP', 38
+                            ], [
+                                'MC', 31
+                            ]]
+                        }, {
+                            name: 'Medicaid Payers',
+                            id: 'Medicaid Payers',
+                            data: [[
+                                'MDE', 38
+                            ], [
+                                'MD', 32
+                            ], [
+                                'MLI', 390
+                            ], [
+                                'MRB', 424
+                            ], [
+                                'MCD', 1162
+                            ]]
+                        }, {
+                            name: 'Commercial Payers',
+                            id: 'Commercial Payers',
+                            data: [[
+                                'PPO', 393
+                            ], [
+                                'POS', 417
+                            ], [
+                                'HMO', 426
+                            ], [
+                                'CEP', 391
+                            ]]
+                        }, {
+                            name: 'Exchange Payers',
+                            id: 'Exchange Payers',
+                            data: [[
+                                'MMO', 64
+                            ], [
+                                'MOS', 65
+                            ], [
+                                'MPO', 68
+                            ], [
+                                'MEP', 55
+                            ]]
+                        }]
+                    }
+                });
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+            }
+            .page-title {
+                text-align: center;
+                font-weight: bold;
+            }
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+            .highcharts-figure div {
+                border-bottom: 1px solid #d3d3d3;
+            }
+            .psa-container-payer-summary,
+            .psa-container-payer-commercial,
+            .psa-container-payer-exchange {
+                float: left;
+                width: 30% !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page-title">
+            These charts represent the number of older men who had an inappropriate PSA test completed for 71,308 patients of which 7,890 the PSA test.
+        </div>
+        <figure class="highcharts-figure">
+            <div id="psa-container-initial-population"></div>
+            <div id="psa-container-numerator"></div>
+            <div id="psa-container-exclusions"></div>
+            <div id="psa-container-payer"></div>
+            <div id="psa-container-age"></div>
+        </figure>
+    </body>
+</html>
