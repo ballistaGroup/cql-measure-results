@@ -33,25 +33,27 @@
 
                             ['Patients', 'Numerator', 7551],
 
-                            ['Numerator', 'Influenza for 1st delivery', 0],     // PRSINFLA
-                            ['Numerator', 'Tdap for 1st delivery', 351],        // PRSTDA
-                            ['Numerator', 'Combination for 1st delivery', 0],   // PRSCMBA
-                            ['Numerator', 'Influenza for 2nd delivery', 0],     // PRSINFLA
-                            ['Numerator', 'Tdap for 2nd delivery', 450],        // PRSTDA
-                            ['Numerator', 'Combination for 2nd delivery', 0],   // PRSCMBA
-                            ['Numerator', 'None', 6750],                        // PRS          $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRS$' | wc -l
+                            ['Numerator', 'Influenza for 1st delivery', 0],     // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRSINFLA$' | wc -l
+                            ['Numerator', 'Tdap for 1st delivery', 351],        // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRSTDA$' | wc -l
+                            ['Numerator', 'Combination for 1st delivery', 0],   // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRSCMBA$' | wc -l
+                            ['Numerator', 'Influenza for 2nd delivery', 0],     // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRSINFLA$' | wc -l
+                            ['Numerator', 'Tdap for 2nd delivery', 450],        // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRSTDA$' | wc -l
+                            ['Numerator', 'Combination for 2nd delivery', 0],   // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRSCMBA$' | wc -l
+                            ['Numerator', 'None', 6750],                        // $ cut -d ',' -f 2 PRS-E.csv | egrep '^PRS$' | wc -l
 
                             ['Patients', 'Payer', 7551],
                             ['Payer', 'Medicare', 2958],            // MCR=2886 + MP=30 + MC=26 => 2,958
                             ['Payer', 'Medicaid', 1671],            // MDE=648 + MD=12 + MLI=474 + MRB=147 + MCD=390 => 1,671
-                            ['Payer', 'Commercial PPO', 558],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^PPO$' | wc -l
-                            ['Payer', 'Commercial POS', 594],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^POS$' | wc -l
-                            ['Payer', 'Commercial HMO', 588],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^HMO$' | wc -l
-                            ['Payer', 'Commerical CEP', 657],       // $ cut -d ',' -f 3 PRS-E.csv | egrep '^CEP$' | wc -l
-                            ['Payer', 'Exchange MMO', 30],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MMO$' | wc -l
-                            ['Payer', 'Exchange MOS', 27],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MOS$' | wc -l
-                            ['Payer', 'Exchange MPO', 36],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MPO$' | wc -l
-                            ['Payer', 'Exchange MEP', 15],          // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MEP$' | wc -l
+                            ['Payer', 'Commercial', 2397],          // PPO=558 + POS=594 + HMO=588 + CEP=657 => 2,397
+                            ['Commercial', 'PPO', 558],             // $ cut -d ',' -f 3 PRS-E.csv | egrep '^PPO$' | wc -l
+                            ['Commercial', 'POS', 594],             // $ cut -d ',' -f 3 PRS-E.csv | egrep '^POS$' | wc -l
+                            ['Commercial', 'HMO', 588],             // $ cut -d ',' -f 3 PRS-E.csv | egrep '^HMO$' | wc -l
+                            ['Commercial', 'CEP', 657],             // $ cut -d ',' -f 3 PRS-E.csv | egrep '^CEP$' | wc -l
+                            ['Payer', 'Exchange', 108],             // MMO=30 + MOS=27 + MPO=36 + MEP=15 => 108
+                            ['Exchange', 'MMO', 30],                // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MMO$' | wc -l
+                            ['Exchange', 'MOS', 27],                // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MOS$' | wc -l
+                            ['Exchange', 'MPO', 36],                // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MPO$' | wc -l
+                            ['Exchange', 'MEP', 15],                // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MEP$' | wc -l
                             ['Payer', 'MCS', 417],                  // $ cut -d ',' -f 3 PRS-E.csv | egrep '^MCS$' | wc -l
 
                             ['Patients', 'Gender', 7551],
