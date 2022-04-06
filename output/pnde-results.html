@@ -36,22 +36,24 @@
                             ['Initial Population: Deliveries', 'Numerator 1', 750],
                             ['Numerator 1', 'Depression Screening for 1st delivery', 490],          // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND1A$' | wc -l
                             ['Numerator 1', 'Depression Screening for 2nd delivery', 14],           // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND2A$' | wc -l
-                            ['Numerator 1', 'No depression screening', 204],                        // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND$' | wc -l 
+                            ['Numerator 1', 'No depression screening 1', 204],                        // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND$' | wc -l 
 
                             ['Initial Population: Deliveries', 'Numerator 2', 750],
                             ['Numerator 2', 'Follow-up on Positive Screen for 1st delivery', 42],   // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND1B$' | wc -l
-                            ['Numerator 2', 'No depression screening', 204],                        // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND$' | wc -l 
+                            ['Numerator 2', 'No depression screening 2', 204],                        // $ cut -d ',' -f 2 PND-E.csv | egrep '^PND$' | wc -l 
 
                             ['Initial Population: Deliveries', 'Exclusions', 750],
                             ['Exclusions', '< 37 weeks Delivery or Hospice Delivery', 106],         // $ cut -d ',' -f 9 PND-E.csv | grep 1 | wc -l
+                            ['Exclusions', 'None', 644],                                            // 750 - 106 => 644
 
                             ['Initial Population: Deliveries', 'Payer', 750],
-                            ['Payer', 'Medicare', 266+2+4],         // MCR=266 + MP=2 + MC=4
-                            ['Payer', 'Medicaid', 28+82+32+20],     // MCD=28 + MDE=82 + MD=0 + MLI=32 + MRB=20
-                            ['Payer', 'Commercial PPO', 58],        // $ cut -d ',' -f 3 PND-E.csv | egrep '^PPO$'| wc -l
-                            ['Payer', 'Commercial POS', 72],        // $ cut -d ',' -f 3 PND-E.csv | egrep '^POS$'| wc -l
-                            ['Payer', 'Commercial HMO', 70],        // $ cut -d ',' -f 3 PND-E.csv | egrep '^HMO$'| wc -l
-                            ['Payer', 'Commerical CEP', 68],        // $ cut -d ',' -f 3 PND-E.csv | egrep '^CEP$'| wc -l
+                            ['Payer', 'Medicare', 272],             // MCR=266 + MP=2 + MC=4 => 272
+                            ['Payer', 'Medicaid', 162],             // MCD=28 + MDE=82 + MLI=32 + MRB=20 => 162
+                            ['Payer', 'Commercial', 268],           // PPO=58 + POS=72 + HMO=70 + CEP=68 => 268
+                            ['Commercial', 'PPO', 58],              // $ cut -d ',' -f 3 PND-E.csv | egrep '^PPO$'| wc -l
+                            ['Commercial', 'POS', 72],              // $ cut -d ',' -f 3 PND-E.csv | egrep '^POS$'| wc -l
+                            ['Commercial', 'HMO', 70],              // $ cut -d ',' -f 3 PND-E.csv | egrep '^HMO$'| wc -l
+                            ['Commercial', 'CEP', 68],              // $ cut -d ',' -f 3 PND-E.csv | egrep '^CEP$'| wc -l
                             ['Payer', 'MCS', 28],                   // $ cut -d ',' -f 3 PND-E.csv | egrep '^MCS$'| wc -l
 
                             ['Initial Population: Deliveries', 'Age', 750],
