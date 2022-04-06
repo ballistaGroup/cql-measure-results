@@ -32,22 +32,24 @@
                             //['All Patients', 'Patients', 14474],
 
                             ['Patients', 'Numerator', 1228],
-                            ['Numerator', 'Influenza', 350],        // AISINFL
-                            ['Numerator', 'Td/Tdap', 350],          // AISTD
-                            ['Numerator', 'Herpes Zoster', 333],    // AISZOS
-                            ['Numerator', 'Pneumococcal 23', 195],  // AISPNEU
+                            ['Numerator', 'Influenza', 350],        // $ cut -d ',' -f 2 AIS-E.csv | egrep '^AISINFL$' | wc -l
+                            ['Numerator', 'Td/Tdap', 350],          // $ cut -d ',' -f 2 AIS-E.csv | egrep '^AISTD$' | wc -l
+                            ['Numerator', 'Herpes Zoster', 333],    // $ cut -d ',' -f 2 AIS-E.csv | egrep '^AISZOS$' | wc -l
+                            ['Numerator', 'Pneumococcal 23', 195],  // $ cut -d ',' -f 2 AIS-E.csv | egrep '^AISPNEU$' | wc -l
 
                             ['Patients', 'Payer', 1228],
                             ['Payer', 'Medicare', 636],             // MCR=590 + MP=20 + MC=26 => 636
                             ['Payer', 'Medicaid', 317],             // MDE=7 + MD=4 + MLI=49 + MRB=40 + MCD=217 => 317
-                            ['Payer', 'Commercial PPO', 31],
-                            ['Payer', 'Commercial POS', 31],
-                            ['Payer', 'Commercial HMO', 60],
-                            ['Payer', 'Commerical CEP', 59],
-                            ['Payer', 'Exchange MMO', 3],
-                            ['Payer', 'Exchange MOS', 6],
-                            ['Payer', 'Exchange MPO', 4],
-                            ['Payer', 'Exchange MEP', 11],
+                            ['Payer', 'Commercial', 181],           // PPO=31 + POS=31 + HMO=60 + CEP=59 => 181
+                            ['Commercial', 'PPO', 31],              // $ cut -d ',' -f 3 AIS-E.csv | egrep '^PPO$' | wc -l
+                            ['Commercial', 'POS', 31],              // $ cut -d ',' -f 3 AIS-E.csv | egrep '^POS$' | wc -l
+                            ['Commercial', 'HMO', 60],              // $ cut -d ',' -f 3 AIS-E.csv | egrep '^HMO$' | wc -l
+                            ['Commercial', 'CEP', 59],              // $ cut -d ',' -f 3 AIS-E.csv | egrep '^CEP$' | wc -l
+                            ['Payer', 'Exchange', 24],              // MMO=3 + MOS=6 + MPO=4 + MEP=11 => 24
+                            ['Exchange', 'MMO', 3],                 // $ cut -d ',' -f 3 AIS-E.csv | egrep '^MMO$' | wc -l
+                            ['Exchange', 'MOS', 6],                 // $ cut -d ',' -f 3 AIS-E.csv | egrep '^MOS$' | wc -l
+                            ['Exchange', 'MPO', 4],                 // $ cut -d ',' -f 3 AIS-E.csv | egrep '^MPO$' | wc -l
+                            ['Exchange', 'MEP', 11],                // $ cut -d ',' -f 3 AIS-E.csv | egrep '^MEP$' | wc -l
                             ['Payer', 'MCS', 74],
 
                             ['Patients', 'Gender', 1228],
@@ -56,13 +58,13 @@
 
                             ['Patients', 'Age', 1228],
                             ['Age', '20-29', 10],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^2'| wc -l
-                            ['Age', '30-39', 8],
-                            ['Age', '40-49', 16],
-                            ['Age', '50-59', 327],
-                            ['Age', '60-69', 151],
-                            ['Age', '70-79', 268],
-                            ['Age', '80-89', 292],
-                            ['Age', '90+', 156],
+                            ['Age', '30-39', 8],                    // $ cut -d ',' -f 11 AIS-E.csv | egrep '^3'| wc -l
+                            ['Age', '40-49', 16],                   // $ cut -d ',' -f 11 AIS-E.csv | egrep '^4'| wc -l
+                            ['Age', '50-59', 327],                  // $ cut -d ',' -f 11 AIS-E.csv | egrep '^5'| wc -l
+                            ['Age', '60-69', 151],                  // $ cut -d ',' -f 11 AIS-E.csv | egrep '^6'| wc -l
+                            ['Age', '70-79', 268],                  // $ cut -d ',' -f 11 AIS-E.csv | egrep '^7'| wc -l
+                            ['Age', '80-89', 292],                  // $ cut -d ',' -f 11 AIS-E.csv | egrep '^8'| wc -l
+                            ['Age', '90+', 156],                    // $ cut -d ',' -f 11 AIS-E.csv | egrep '^9'| wc -l
                         ],
                         type: 'sankey',
                         name: 'AIS-E Sankey'
