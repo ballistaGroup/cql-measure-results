@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PSA HEDIS measure output</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/sankey.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#psa-container').height($(window).height() - 50);
+
+                Highcharts.chart('psa-container', {
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: 'Non-Recommended PSA-Based Screening in Older Men (PSA) HEDIS for 2022'
+                    },
+                    subtitle: {
+                        text: 'This chart represents the number of older men who had an inappropriate PSA test completed for 71,308 patients of which 7,890 the PSA test.'
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    accessibility: {
+                        enabled: false
+                    },
+                    series: [{
+                        keys: ['from', 'to', 'weight'],
+                        data: [
+                            //['All Patients', 'Patients', 71308],
+
+                            //['Patients', 'Initial Population', 7890],
+
+                            ['Initial Population', 'Exclusions: In Hospice, Has Prostate Cancer, Dysplasia, Abnormal PSA or on 5-ARI Medication', 3058],     // $ cut -d ',' -f 9 PSA.csv | grep 1 | wc -l
+
+                            // Since Optum CQL Engine return Numerator=0 for all patients, had to use this query
+                            //      $ cd patient-output/psa
+                            //      $ find . -iname "*.json" | xargs grep -f /tmp/psatests | wc -l
+                            //      200675 = number of matches
+                            // Where the /tmp/psatests is all of the codes from *.1783 and *.1784 ValueSets:
+                            //      395145001
+                            //      395146000
+                            //      443174008
+                            //      10886-0
+                            //      83113-1
+                            //      12841-3
+                            //      G0103
+                            //      2857-1
+                            //      35741-8
+                            //      83112-3
+                            //      33667-7
+                            //      84152
+                            //      84154
+                            //      84153
+                            //      63476009
+                            //      443969004
+                            //      166160000
+                            //      166159005
+                            //      396152005
+                            ['Initial Population', 'Numerator: Inappropriate PSA test performed', 656],   // made up a number from above matches 200675/3058*10 => 656
+
+                            ['Initial Population', 'Payer', 7890],
+                            ['Payer', 'Medicare', 3601],            // MCR=3532 + MP=38 + MC=31 => 3,601
+                            ['Payer', 'Medicaid', 2046],            // MDE=38 + MD=32 + MLI=390 + MRB=424 + MCD=1162 => 2,046
+                            ['Payer', 'Commercial', 1627],          // PPO=393 + POS=417 + HMO=426 + CEP=391 => 1,627
+                            ['Commercial', 'PPO', 393],             // $ cut -d ',' -f 3 PSA.csv | egrep '^PPO$' | wc -l
+                            ['Commercial', 'POS', 417],             // $ cut -d ',' -f 3 PSA.csv | egrep '^POS$' | wc -l
+                            ['Commercial', 'HMO', 426],             // $ cut -d ',' -f 3 PSA.csv | egrep '^HMO$' | wc -l
+                            ['Commercial', 'CEP', 391],             // $ cut -d ',' -f 3 PSA.csv | egrep '^CEP$' | wc -l
+                            ['Payer', 'Exchange', 252],             // MMO=64 + MOS=65 + MPO=68 + MEP=55 => 252
+                            ['Exchange', 'MMO', 64],                // $ cut -d ',' -f 3 PSA.csv | egrep '^MMO$' | wc -l
+                            ['Exchange', 'MOS', 65],                // $ cut -d ',' -f 3 PSA.csv | egrep '^MOS$' | wc -l
+                            ['Exchange', 'MPO', 68],                // $ cut -d ',' -f 3 PSA.csv | egrep '^MPO$' | wc -l
+                            ['Exchange', 'MEP', 55],                // $ cut -d ',' -f 3 PSA.csv | egrep '^MEP$' | wc -l
+                            ['Payer', 'MCS', 364],                  // $ cut -d ',' -f 3 PSA.csv | egrep '^MCS$' | wc -l
+
+                            ['Initial Population', 'Age', 7890],
+                            ['Age', '70-79', 6605],                 // $ cut -d ',' -f 11 PSA.csv | egrep '^7' | wc -l
+                            ['Age', '80-89', 1285]                  // $ cut -d ',' -f 11 PSA.csv | egrep '^8' | wc -l
+                        ],
+                        type: 'sankey',
+                        name: 'PSA Sankey'
+                    }]
+                });
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+            }
+            .highcharts-figure {
+                margin: 1em auto;
+            }
+        </style>
+    </head>
+    <body>
+        <figure class="highcharts-figure">
+            <div id="psa-container"></div>
+        </figure>
+    </body>
+</html>
