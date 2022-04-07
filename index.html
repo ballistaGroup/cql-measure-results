@@ -6,16 +6,44 @@
             body {
                 font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
             }
+            .sankey {
+                font-style: italic;
+            }
+            .sankey a:visited {
+                color: rgb(1, 33, 105);
+            }
+            h1 {
+                color: rgb(1, 33, 105);
+                padding-left: .75rem;
+            }
+            a:visited {
+                color: rgb(0, 114, 206);
+            }
         </style>
     </head>
     <body>
+        <img src="img/btg-logo-250x116.png" alt="Ballista Technology Group" title="Ballista Technology Group" width="250" height=""116>
         <h1>HEDIS Measure output for calendar year 2022</h1>
         <ul>
-            <li><a href="output/aise-results-as-charts.html">AIS-E: Adult Immunization Status</a></li>
-            <li><a href="output/bcse-results-as-charts.html">BCS-E: Breast Cancer Screening</a></li>
-            <li><a href="output/pnde-results-as-charts.html">PND-E: Prenatal Depression Screening</a></li>
-            <li><a href="output/prse-results-as-charts.html">PRS-E: Prenatal Immunization Status</a></li>
-            <li><a href="output/psa-results-as-charts.html">PSA: Non-Recommended PSA-Based Screening in Older Men</a></li>
+            <li>
+                <a href="output/aise-results-as-charts.html">AIS-E: Adult Immunization Status</a>
+                <span class="sankey">(<a href="output/aise-results.html">sankey</a>)</span>
+            </li>
+            <li>
+                <a href="output/bcse-results-as-charts.html">BCS-E: Breast Cancer Screening</a>
+                <span class="sankey">(<a href="output/bcse-results.html">sankey</a>)</span>
+            </li>
+            <li>
+                <a href="output/pnde-results-as-charts.html">PND-E: Prenatal Depression Screening</a>
+                <span class="sankey">(<a href="output/pnde-results.html">sankey</a>)</span></li>
+            <li>
+                <a href="output/prse-results-as-charts.html">PRS-E: Prenatal Immunization Status</a>
+                <span class="sankey">(<a href="output/prse-results.html">sankey</a>)</span>
+            </li>
+            <li>
+                <a href="output/psa-results-as-charts.html">PSA: Non-Recommended PSA-Based Screening in Older Men</a>
+                <span class="sankey">(<a href="output/psa-results.html">sankey</a>)</span>
+            </li>
         </ul>
     </body>
 </html>
